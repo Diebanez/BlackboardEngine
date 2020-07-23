@@ -1,18 +1,20 @@
 #include "Application.h"
-#include <iostream>
+#include "Log.h"
 
 namespace BlackboardRuntime
 {
-    Application::Application(unsigned int maxTickCount) : m_MaxTickCount(maxTickCount), m_ActualTickCount(0)
-    {
-        std::cout << "Initialized Application!" << std::endl;
+    Application* Application::m_Instance = nullptr;
+
+    Application::Application() : m_Running(true) {
+        m_Instance= this;
     }
 
-    bool Application::Run()
-    {
-        m_ActualTickCount++;
-        std::cout << "Actual tick " << m_ActualTickCount << std::endl;
+    Application::~Application() { }
 
-        return m_ActualTickCount < m_MaxTickCount;
+    void Application::Run(){
+        while(m_Running){
+            BB_CORE_INFO("Running");
+        }
+        BB_CORE_INFO("Closing");
     }
 } // namespace BlackboardRuntime

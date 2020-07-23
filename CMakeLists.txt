@@ -1,6 +1,8 @@
-cmake_minimum_required (VERSION 3.18)
+cmake_minimum_required (VERSION 3.16)
 
 project(BlackboardEngine)
+
+add_subdirectory(./Vendor/spdlog)
 
 add_subdirectory(./BlackboardRuntime)
 add_subdirectory(./BlackboardEditor)

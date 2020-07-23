@@ -3,11 +3,17 @@ namespace BlackboardRuntime
     class Application
     {
     public:
-        Application(unsigned int tickCount);
-        bool Run();
+        Application();
+        virtual ~Application();
 
+        void Run();
+
+        inline static Application& Get() { return *m_Instance; }
     private:
-        unsigned int m_ActualTickCount;
-        unsigned int m_MaxTickCount;
+        static Application* m_Instance;
+
+        bool m_Running = true;
     };
+
+    Application* CreateApplication();
 } // namespace BlackboardRuntime
