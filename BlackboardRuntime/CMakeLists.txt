@@ -1,4 +1,4 @@
-file(GLOB BlackboardRuntime_SRC "src/*.h" "src/*.cpp")
+file(GLOB BlackboardRuntime_SRC "src/*.h" "src/*.cpp" "src/Core/*.h" "src/Core/*.cpp" "src/Events/*.h" "src/Events/*.cpp" "src/Input/*.h" "src/Input/*.cpp")
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
