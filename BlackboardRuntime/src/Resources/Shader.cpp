@@ -4,6 +4,7 @@
 
 #include "Shader.h"
 #include <Platform/OpenGL/OpenGLVertexBuffer.h>
+#include <Platform/OpenGL/OpenGLShader.h>
 #include <Rendering/Renderer.h>
 
 namespace BlackboardRuntime{

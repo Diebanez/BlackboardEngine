@@ -5,6 +5,7 @@
 #ifndef BLACKBOARDENGINE_INDEXBUFFER_H
 #define BLACKBOARDENGINE_INDEXBUFFER_H
 
+#include <cstdint>
 
 namespace BlackboardRuntime {
     class IndexBuffer {

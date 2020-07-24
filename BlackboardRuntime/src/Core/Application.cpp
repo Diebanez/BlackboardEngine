@@ -11,6 +11,8 @@ namespace BlackboardRuntime
 
     Application::Application() : m_Running(true) {
         m_Instance= this;
+        m_Window = std::unique_ptr<Window>(Window::Create());
+        m_Window->SetEventCallback(BIND_EVENT(OnEvent));
     }
 
     Application::~Application() { }
@@ -29,6 +31,8 @@ namespace BlackboardRuntime
 
     void Application::Run(){
         while(m_Running){
+            m_Window->OnBeforeUpdate();
+
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
             for (Layer* layer : m_LayerStack)
@@ -37,6 +41,8 @@ namespace BlackboardRuntime
                 layer->OnGuiRender();
             for (Layer* layer : m_LayerStack)
                 layer->OnAfterGuiRender();
+
+            m_Window->OnUpdate();
         }
         BB_CORE_INFO("Closing");
     }

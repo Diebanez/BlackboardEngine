@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include <Rendering/Renderer.h>
-#include "IndexBuffer.h"
+#include "Platform/OpenGL/OpenGLIndexBuffer.h"
 #include "Core/Core.h"
 
 namespace BlackboardRuntime {

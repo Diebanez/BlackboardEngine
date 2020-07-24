@@ -5,6 +5,10 @@
 #ifndef BLACKBOARDENGINE_WINDOWS_H
 #define BLACKBOARDENGINE_WINDOWS_H
 
+#include <string>
+#include <functional>
+#include <Events/Event.h>
+
 namespace BlackboardRuntime{
     struct WindowProperties{
         std::string Title;
@@ -20,7 +24,8 @@ namespace BlackboardRuntime{
         using EventCallbackFunction = std::function<void(Event&)>;
 
         virtual ~Window(){}
-
+        
+        virtual void OnBeforeUpdate() = 0;
         virtual void OnUpdate() = 0;
         virtual unsigned int GetWidth() const = 0;
         virtual unsigned int GetHeight() const = 0;

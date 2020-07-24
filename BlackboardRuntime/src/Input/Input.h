@@ -5,6 +5,8 @@
 #ifndef BLACKBOARDENGINE_INPUT_H
 #define BLACKBOARDENGINE_INPUT_H
 
+#include <utility>
+
 namespace BlackboardRuntime {
     class Input {
     public:

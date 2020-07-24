@@ -5,7 +5,11 @@
 #ifndef BLACKBOARDENGINE_VERTEXBUFFER_H
 #define BLACKBOARDENGINE_VERTEXBUFFER_H
 
+#include <cstdint>
+
 namespace BlackboardRuntime {
+    class BufferLayout;
+
     class VertexBuffer {
     public:
         virtual ~VertexBuffer();
