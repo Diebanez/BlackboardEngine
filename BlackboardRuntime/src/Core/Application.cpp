@@ -5,6 +5,8 @@
 
 namespace BlackboardRuntime
 {
+#define BIND_EVENT(x) std::bind(&Application::x, this, std::placeholders::_1)
+
     Application* Application::m_Instance = nullptr;
 
     Application::Application() : m_Running(true) {
