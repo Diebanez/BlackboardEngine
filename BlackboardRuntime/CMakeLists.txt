@@ -11,5 +11,6 @@ file(GLOB BlackboardRuntime_SRC
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
-target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog../Vendor/glad/include)
-target_link_libraries(BlackboardRuntime spdlog glad)
+find_package(OpenGL REQUIRED)
+target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog../Vendor/glad/include ./Vendor/glfw/include)
+target_link_libraries(BlackboardRuntime spdlog glad glfw OpenGL::GL)
