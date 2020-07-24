@@ -19,3 +19,4 @@
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/IndexBuffer.h"
 #include "Resources/Shader.h"
+#include "Platform/OpenGL/OpenGLVertexBuffer.h"

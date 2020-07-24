@@ -5,8 +5,8 @@
 #ifndef BLACKBOARDENGINE_LOG_H
 #define BLACKBOARDENGINE_LOG_H
 
-#include "spdlog.h"
-#include "spdlog/fmt/ostr.h"
+#include <spdlog/fmt/ostr.h>
+#include <spdlog/logger.h>
 
 namespace BlackboardRuntime {
     class Log {

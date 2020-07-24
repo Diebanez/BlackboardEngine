@@ -3,6 +3,8 @@
 //
 
 #include "Shader.h"
+#include <Platform/OpenGL/OpenGLVertexBuffer.h>
+#include <Rendering/Renderer.h>
 
 namespace BlackboardRuntime{
     Shader* Shader::Create(std::vector<ShaderSource> src) {

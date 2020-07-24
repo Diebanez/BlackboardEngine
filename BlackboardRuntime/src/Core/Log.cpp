@@ -3,7 +3,8 @@
 //
 
 #include "Log.h"
-#include "sinks/stdout_color_sinks.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace BlackboardRuntime{
     std::shared_ptr<spdlog::logger> Log::m_CoreLogger;

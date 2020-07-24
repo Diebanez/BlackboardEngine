@@ -5,6 +5,7 @@
 #ifndef BLACKBOARDENGINE_INDEXBUFFER_H
 #define BLACKBOARDENGINE_INDEXBUFFER_H
 
+
 namespace BlackboardRuntime {
     class IndexBuffer {
     public:
