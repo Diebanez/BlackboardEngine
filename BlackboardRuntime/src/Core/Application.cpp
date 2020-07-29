@@ -34,6 +34,8 @@ namespace BlackboardRuntime
             m_Window->OnBeforeUpdate();
 
             for (Layer* layer : m_LayerStack)
+                layer->OnRender();
+            for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
             for (Layer* layer : m_LayerStack)
                 layer->OnBeforeGuiRender();

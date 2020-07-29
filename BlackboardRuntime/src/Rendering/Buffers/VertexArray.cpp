@@ -1,6 +1,7 @@
 #include "VertexArray.h"
-#include "Renderer.h"
-#include "Core.h"
+#include <Rendering/Renderer.h>
+#include <Core/Core.h>
+#include <Platform/OpenGL/OpenGLVertexArray.h>
 
 namespace BlackboardRuntime{
     VertexArray* VertexArray::Create(){

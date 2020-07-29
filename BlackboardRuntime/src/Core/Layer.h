@@ -18,6 +18,7 @@ namespace BlackboardRuntime {
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
+        virtual void OnRender(){}
         virtual void OnUpdate() {}
         virtual void OnFixedUpdate() {}
         virtual void OnBeforeGuiRender() {}
