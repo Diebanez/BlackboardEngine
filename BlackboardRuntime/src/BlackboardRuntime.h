@@ -18,5 +18,6 @@
 #include "Rendering/Buffers/BufferLayout.h"
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/IndexBuffer.h"
+#include "Rendering/Buffers/VertexArray.h"
 #include "Resources/Shader.h"
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"

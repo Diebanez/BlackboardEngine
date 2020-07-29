@@ -55,7 +55,7 @@ namespace BlackboardRuntime {
 
     class BufferLayout {
     public:
-        BufferLayout();
+        BufferLayout() {}
 
         BufferLayout(const std::initializer_list<BufferElement> &elements) : m_Elements(elements) {
             CalculateOffsetsAndStride();
