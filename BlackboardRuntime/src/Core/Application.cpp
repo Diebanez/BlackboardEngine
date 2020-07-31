@@ -1,5 +1,6 @@
 #include <Events/EventDispatcher.h>
 #include <Events/ApplicationEvent.h>
+#include <Rendering/Renderer.h>
 #include "Application.h"
 #include "Log.h"
 
@@ -31,10 +32,16 @@ namespace BlackboardRuntime
 
     void Application::Run(){
         while(m_Running){
-            m_Window->OnBeforeUpdate();
+            RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1});
+            RenderCommand::Clear();
 
-            for (Layer* layer : m_LayerStack)
+            Renderer::BeginScene();
+
+            for (Layer *layer : m_LayerStack)
                 layer->OnRender();
+
+            Renderer::EndScene();
+
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
             for (Layer* layer : m_LayerStack)

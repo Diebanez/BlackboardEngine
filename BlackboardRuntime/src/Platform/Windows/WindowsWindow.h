@@ -11,7 +11,6 @@ namespace BlackboardRuntime {
 		WindowsWindow(const WindowProperties& props);
 		virtual ~WindowsWindow();
 
-		void OnBeforeUpdate() override;
 		void OnUpdate() override;
 
 		inline unsigned int GetWidth() const override { return m_Data.Width; }

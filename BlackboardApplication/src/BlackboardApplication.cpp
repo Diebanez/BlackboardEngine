@@ -124,12 +124,14 @@ public:
 
     void OnRender() override {
         m_QuadShader->Bind();
-        m_QuadVertexArray->Bind();
-        glDrawElements(GL_TRIANGLES, m_QuadVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+        Renderer::Submit(m_QuadVertexArray);
+        //m_QuadVertexArray->Bind();
+        //glDrawElements(GL_TRIANGLES, m_QuadVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
         m_TrisShader->Bind();
-        m_TrisVertexArray->Bind();
-        glDrawElements(GL_TRIANGLES, m_TrisVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+        Renderer::Submit(m_TrisVertexArray);
+        //m_TrisVertexArray->Bind();
+        //glDrawElements(GL_TRIANGLES, m_TrisVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
     }
 
 private:
