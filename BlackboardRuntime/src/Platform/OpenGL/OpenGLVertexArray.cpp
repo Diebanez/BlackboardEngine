@@ -1,8 +1,6 @@
 #include "OpenGLVertexArray.h"
 
-#include <glad/glad.h>
 #include <Rendering/Buffers/BufferLayout.h>
-#include <Resources/Shader.h>
 
 namespace BlackboardRuntime{
 
@@ -44,7 +42,7 @@ namespace BlackboardRuntime{
     void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) {
         BB_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
-        glBindVertexArray(0);
+        glBindVertexArray(m_Handle);
         vertexBuffer->Bind();
 
         uint32_t  index =0 ;

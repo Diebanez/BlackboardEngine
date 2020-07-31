@@ -3,6 +3,8 @@
 
 #include <Rendering/Buffers/VertexArray.h>
 #include <vector>
+#include <glad/glad.h>
+#include <Resources/Shader.h>
 
 namespace BlackboardRuntime {
     class OpenGLVertexArray : public VertexArray {
