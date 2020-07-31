@@ -27,7 +27,7 @@ public:
         trisVertexBuffer->SetLayout(trisLayout);
         m_TrisVertexArray->AddVertexBuffer(trisVertexBuffer);
 
-        uint32_t trisIndices[6] = {0, 1, 2, 2, 3, 0 };
+        uint32_t trisIndices[3] = {0, 1, 2 };
         std::shared_ptr<BlackboardRuntime::IndexBuffer> trisIndexBuffer;
         trisIndexBuffer.reset(BlackboardRuntime::IndexBuffer::Create(trisIndices, sizeof(trisIndices) / sizeof(uint32_t)));
         m_TrisVertexArray->SetIndexBuffer(trisIndexBuffer);
