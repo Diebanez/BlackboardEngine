@@ -37,13 +37,16 @@ public:
 
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
+
+            uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 			void main()
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -93,11 +96,14 @@ public:
 			#version 460 core
 
 			layout(location = 0) in vec3 a_Position;
+
+            uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -122,16 +128,9 @@ public:
     }
 
 
-    void OnRender() override {
-        m_QuadShader->Bind();
-        Renderer::Submit(m_QuadVertexArray);
-        //m_QuadVertexArray->Bind();
-        //glDrawElements(GL_TRIANGLES, m_QuadVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-        m_TrisShader->Bind();
-        Renderer::Submit(m_TrisVertexArray);
-        //m_TrisVertexArray->Bind();
-        //glDrawElements(GL_TRIANGLES, m_TrisVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+    void OnSceneRender() override {
+        Renderer::Submit(m_QuadShader, m_QuadVertexArray);
+        Renderer::Submit(m_TrisShader, m_TrisVertexArray);
     }
 
 private:

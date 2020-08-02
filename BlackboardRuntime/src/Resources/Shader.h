@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "Core/Core.h"
+#include <glm/glm.hpp>
 
 namespace BlackboardRuntime {
     enum class ShaderDataType{
@@ -64,6 +65,8 @@ namespace BlackboardRuntime {
 
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
+
+        virtual void SetUniform(const std::string& name, const glm::mat4 &matrix) = 0;
 
         static Shader* Create(std::vector<ShaderSource> src);
     };

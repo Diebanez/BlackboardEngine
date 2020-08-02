@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <Resources/Shader.h>
 #include <Core/Log.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace BlackboardRuntime {
 	OpenGLShader::OpenGLShader(std::vector<ShaderSource> src) {
@@ -91,4 +92,9 @@ namespace BlackboardRuntime {
 	void OpenGLShader::Unbind() {
 		glUseProgram(0);
 	}
+
+    void OpenGLShader::SetUniform(const std::string& name, const glm::mat4 &matrix) {
+	    GLint location = glGetUniformLocation(m_Handle, name.c_str());
+	    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
 }

@@ -8,6 +8,7 @@
 
 #include <string>
 #include <Events/Event.h>
+#include <Rendering/Camera/OrthographicCamera.h>
 
 namespace BlackboardRuntime {
     class Layer {
@@ -18,7 +19,7 @@ namespace BlackboardRuntime {
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void OnRender(){}
+        virtual void OnSceneRender(){}
         virtual void OnUpdate() {}
         virtual void OnFixedUpdate() {}
         virtual void OnBeforeGuiRender() {}

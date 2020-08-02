@@ -19,5 +19,6 @@
 #include "Rendering/Buffers/VertexBuffer.h"
 #include "Rendering/Buffers/IndexBuffer.h"
 #include "Rendering/Buffers/VertexArray.h"
+#include "Rendering/Camera/OrthographicCamera.h"
 #include "Resources/Shader.h"
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"

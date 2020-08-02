@@ -7,7 +7,8 @@ file(GLOB BlackboardRuntime_SRC
         "src/Rendering/Buffers/*.h" "src/Rendering/Buffers/*.cpp"
         "src/Resources/*.h" "src/Resources/*.cpp"
         "src/Platform/OpenGL/*.h" "src/Platform/OpenGL/*.cpp"
-        "src/Platform/Windows/*.h" "src/Platform/Windows/*.cpp")
+        "src/Platform/Windows/*.h" "src/Platform/Windows/*.cpp"
+        "src/Rendering/Camera/*.h" "src/Rendering/Camera/*.cpp")
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 

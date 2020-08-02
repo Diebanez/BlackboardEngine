@@ -10,7 +10,7 @@ namespace BlackboardRuntime
 
     Application* Application::m_Instance = nullptr;
 
-    Application::Application() : m_Running(true) {
+    Application::Application() : m_Running(true), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
         m_Instance= this;
         m_Window = std::unique_ptr<Window>(Window::Create());
         m_Window->SetEventCallback(BIND_EVENT(OnEvent));
@@ -35,10 +35,12 @@ namespace BlackboardRuntime
             RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1});
             RenderCommand::Clear();
 
-            Renderer::BeginScene();
+            Renderer::BeginScene(m_Camera);
 
+            m_Camera.SetPosition({0.5f, 0.5f, 0.0f});
+            m_Camera.SetRotation(45.0f);
             for (Layer *layer : m_LayerStack)
-                layer->OnRender();
+                layer->OnSceneRender();
 
             Renderer::EndScene();
 
