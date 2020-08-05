@@ -6,21 +6,21 @@
 
 namespace BlackboardRuntime
 {
-#define BB_BIND_EVENT(x) std::bind(&Application::x, this, std::placeholders::_1)
+#define LOCAL_BB_BIND_EVENT(x) std::bind(&Application::x, this, std::placeholders::_1)
 
     Application* Application::m_Instance = nullptr;
 
     Application::Application() : m_Running(true) {
         m_Instance= this;
         m_Window = std::unique_ptr<Window>(Window::Create());
-        m_Window->SetEventCallback(BB_BIND_EVENT(OnEvent));
+        m_Window->SetEventCallback(LOCAL_BB_BIND_EVENT(OnEvent));
     }
 
     Application::~Application() { }
 
     void Application::OnEvent(Event& e) {
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>(BB_BIND_EVENT(OnWindowClose));
+        dispatcher.Dispatch<WindowCloseEvent>(LOCAL_BB_BIND_EVENT(OnWindowClose));
 
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {

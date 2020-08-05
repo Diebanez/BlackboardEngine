@@ -10,7 +10,7 @@ namespace BlackboardRuntime{
 		void Bind() override;
 		void Unbind() override;
 
-        void OpenGLShader::SetUniform(const std::string& name, const glm::mat4 &matrix) override;
+        void SetUniform(const std::string& name, const glm::mat4 &matrix) override;
 
     private:
 		uint32_t m_Handle;
