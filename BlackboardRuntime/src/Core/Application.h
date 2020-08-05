@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include "TimeStep.h"
+#include <memory>
 #include <Rendering/Window.h>
 #include <Rendering/Camera/OrthographicCamera.h>
 
