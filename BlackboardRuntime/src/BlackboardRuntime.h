@@ -4,6 +4,7 @@
 #include "Core/EntryPoint.h"
 #include "Core/Layer.h"
 #include "Core/LayerStack.h"
+#include "Core/TimeStep.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/Event.h"
 #include "Events/EventDispatcher.h"

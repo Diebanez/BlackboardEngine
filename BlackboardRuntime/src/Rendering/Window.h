@@ -15,7 +15,7 @@ namespace BlackboardRuntime{
         unsigned int Width;
         unsigned int Height;
 
-        WindowProperties(const std::string& title = "Blackboard Engine", unsigned int width = 1920, unsigned int height = 1080)
+        WindowProperties(const std::string& title = "Blackboard Engine", unsigned int width = 1280, unsigned int height = 720)
         : Title(title), Width(width), Height(height){}
     };
 
@@ -25,6 +25,7 @@ namespace BlackboardRuntime{
 
         virtual ~Window(){}
 
+        virtual void SetWindowSubtitle(const std::string& subtitle) = 0;
         virtual void OnUpdate() = 0;
         virtual unsigned int GetWidth() const = 0;
         virtual unsigned int GetHeight() const = 0;

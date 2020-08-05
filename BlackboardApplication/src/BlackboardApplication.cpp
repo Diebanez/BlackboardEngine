@@ -3,13 +3,15 @@
 //
 
 #include <glad/glad.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "BlackboardRuntime.h"
-
-using namespace BlackboardRuntime;
 
 class TestLayer : public BlackboardRuntime::Layer{
 public:
-    TestLayer(){
+    TestLayer() : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f),
+    m_CameraPosition(0.0f),
+    m_QuadPosition(0.0f),
+    m_TrisRotation(0.0f) {
         float trisVertices[7 * 3] = {
                 -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
                 0.5f, -0.5f, 0.0f, 0.0, 1.0f, 0.0f, 1.0f,
@@ -21,8 +23,8 @@ public:
         std::shared_ptr<BlackboardRuntime::VertexBuffer> trisVertexBuffer;
         trisVertexBuffer.reset(BlackboardRuntime::VertexBuffer::Create(trisVertices, sizeof(trisVertices)));
         BlackboardRuntime::BufferLayout trisLayout = {
-                {ShaderDataType::Float3, "a_Position"},
-                {ShaderDataType::Float4, "a_Color" }
+                {BlackboardRuntime::ShaderDataType::Float3, "a_Position"},
+                {BlackboardRuntime::ShaderDataType::Float4, "a_Color" }
         };
         trisVertexBuffer->SetLayout(trisLayout);
         m_TrisVertexArray->AddVertexBuffer(trisVertexBuffer);
@@ -39,14 +41,16 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
+
 			void main()
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -56,8 +60,10 @@ public:
 			#version 460 core
 
 			layout(location = 0) out vec4 color;
+
 			in vec3 v_Position;
 			in vec4 v_Color;
+
 			void main()
 			{
 				color = v_Color;
@@ -98,12 +104,14 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
 
 			out vec3 v_Position;
+
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -113,7 +121,9 @@ public:
 			#version 460 core
 
 			layout(location = 0) out vec4 color;
+
 			in vec3 v_Position;
+
 			void main()
 			{
 				color = vec4(0.2, 0.3, 0.8, 1.0);
@@ -128,16 +138,63 @@ public:
     }
 
 
-    void OnSceneRender() override {
-        Renderer::Submit(m_QuadShader, m_QuadVertexArray);
-        Renderer::Submit(m_TrisShader, m_TrisVertexArray);
+    void OnUpdate(float time, BlackboardRuntime::TimeStep deltaTime) override {
+        m_QuadPosition.y = glm::sin(time);
+        m_TrisRotation += deltaTime * 90.0f;
+
+        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_LEFT)) {
+            m_CameraPosition.x -= m_CameraSpeed * deltaTime;
+        }
+        
+        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_RIGHT)) {
+            m_CameraPosition.x += m_CameraSpeed * deltaTime;
+        }
+
+        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_UP)) {
+            m_CameraPosition.y += m_CameraSpeed * deltaTime;
+        }
+
+        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_DOWN)) {
+            m_CameraPosition.y -= m_CameraSpeed * deltaTime;
+        }
+
+        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_E)) {
+            m_CameraRotation += m_CameraRotationSpeed * deltaTime;
+        }
+
+        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_Q)) {
+            m_CameraRotation -= m_CameraRotationSpeed * deltaTime;
+        }
+
+        BlackboardRuntime::RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1});
+        BlackboardRuntime::RenderCommand::Clear();
+
+        BlackboardRuntime::Renderer::BeginScene(m_Camera);
+
+        m_Camera.SetPosition(m_CameraPosition);
+        m_Camera.SetRotation(m_CameraRotation);
+
+        BlackboardRuntime::Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::translate(glm::mat4(1.0f), m_QuadPosition));
+        BlackboardRuntime::Renderer::Submit(m_TrisShader, m_TrisVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)));
+
+        BlackboardRuntime::Renderer::EndScene();
     }
 
 private:
-    std::shared_ptr<Shader> m_TrisShader;
-    std::shared_ptr<VertexArray> m_TrisVertexArray;
-    std::shared_ptr<Shader> m_QuadShader;
-    std::shared_ptr<VertexArray> m_QuadVertexArray;
+    std::shared_ptr<BlackboardRuntime::Shader> m_TrisShader;
+    std::shared_ptr<BlackboardRuntime::VertexArray> m_TrisVertexArray;
+    std::shared_ptr<BlackboardRuntime::Shader> m_QuadShader;
+    std::shared_ptr<BlackboardRuntime::VertexArray> m_QuadVertexArray;
+    BlackboardRuntime::OrthographicCamera m_Camera;
+
+    glm::vec3 m_CameraPosition;
+
+    glm::vec3 m_QuadPosition;
+    float  m_TrisRotation;
+
+    float m_CameraSpeed = 1.0f;
+    float m_CameraRotation = 0.0f;
+    float m_CameraRotationSpeed = 5.0f;
 
 };
 

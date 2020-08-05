@@ -131,4 +131,5 @@ fabric.properties
 # See https://youtrack.jetbrains.com/issue/JBR-2257
 .idea/$CACHE_FILE$
 
+.vs/
 # End of https://www.toptal.com/developers/gitignore/api/clion

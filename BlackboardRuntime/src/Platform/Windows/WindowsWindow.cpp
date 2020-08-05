@@ -142,4 +142,12 @@ namespace BlackboardRuntime {
 	}
 
 	bool WindowsWindow::IsVSync() const { return m_Data.VSync; }
+
+    void WindowsWindow::SetWindowSubtitle(const std::string &subtitle) {
+	    std::stringstream  combinedTitle;
+	    combinedTitle << m_Data.Title;
+	    combinedTitle << " - ";
+	    combinedTitle << subtitle;
+	    glfwSetWindowTitle(m_Window, combinedTitle.str().c_str());
+    }
 }

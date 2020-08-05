@@ -2,6 +2,7 @@
 #include "Events/ApplicationEvent.h"
 #include "Layer.h"
 #include "LayerStack.h"
+#include "TimeStep.h"
 #include <Rendering/Window.h>
 #include <Rendering/Camera/OrthographicCamera.h>
 
@@ -30,7 +31,8 @@ namespace BlackboardRuntime
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
         LayerStack m_LayerStack;
-        OrthographicCamera m_Camera;
+        float m_LastFrameTime = 0.0f;
+        float m_LastTitleUpdateCount = 0;
     };
 
     Application* CreateApplication();

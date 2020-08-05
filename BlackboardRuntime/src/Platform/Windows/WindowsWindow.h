@@ -11,7 +11,10 @@ namespace BlackboardRuntime {
 		WindowsWindow(const WindowProperties& props);
 		virtual ~WindowsWindow();
 
-		void OnUpdate() override;
+        void SetWindowSubtitle(const std::string &subtitle) override;
+
+
+        void OnUpdate() override;
 
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeight() const override { return m_Data.Height; }

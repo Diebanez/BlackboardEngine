@@ -9,6 +9,7 @@
 #include <string>
 #include <Events/Event.h>
 #include <Rendering/Camera/OrthographicCamera.h>
+#include "TimeStep.h"
 
 namespace BlackboardRuntime {
     class Layer {
@@ -19,9 +20,7 @@ namespace BlackboardRuntime {
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void OnSceneRender(){}
-        virtual void OnUpdate() {}
-        virtual void OnFixedUpdate() {}
+        virtual void OnUpdate(float time, TimeStep deltaTime) {}
         virtual void OnBeforeGuiRender() {}
         virtual void OnGuiRender() {}
         virtual void OnAfterGuiRender() {}

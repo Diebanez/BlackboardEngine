@@ -15,7 +15,7 @@
     #define BB_ASSERT(x, ...)
 #endif
 
-#define BIT(x) (1 << x)
-#define BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)
+#define BB_BIT(x) (1 << x)
+#define BB_BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)
 
 #endif //BLACKBOARDENGINE_CORE_H
