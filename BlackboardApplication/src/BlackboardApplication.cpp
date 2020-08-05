@@ -202,6 +202,7 @@ class TestApplication : public BlackboardRuntime::Application {
 public:
     TestApplication() {
         this->PushLayer(new TestLayer);
+        this->GetWindow().SetVSync(true);
     }
 
     ~TestApplication() {
