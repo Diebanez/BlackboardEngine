@@ -14,7 +14,7 @@ add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
 if(WIN32)
     add_definitions(-DBB_WINDOWS_PLATFORM)
-elseif(UNIX and not APPLE)
+elseif(UNIX AND NOT APPLE)
     add_definitions(-DBB_LINUX_PLATFORM)
 else()
     message(FATAL_ERROR "Platform not supported")
