@@ -13,6 +13,8 @@ file(GLOB BlackboardRuntime_SRC
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
+set_target_properties(BlackboardRuntime PROPERTIES CXX_STANDARD 17 CXX_EXTENSIONS OFF)
+
 if(WIN32)
     add_definitions(-DBB_WINDOWS_PLATFORM)
 elseif(UNIX AND NOT APPLE)
