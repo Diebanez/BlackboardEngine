@@ -1,3 +1,5 @@
+#ifdef BB_WINDOWS_PLATFORM
+
 #include "WindowsInput.h"
 #define GLFW_INCLUDE_NONE
 #include<GLFW/glfw3.h>
@@ -51,3 +53,4 @@ namespace BlackboardRuntime {
 		return { static_cast<float>(outX), static_cast<float>(outY) };
 	}
 }
+#endif

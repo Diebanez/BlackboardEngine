@@ -1,5 +1,8 @@
 #pragma once
+
+#ifdef BB_WINDOWS_PLATFORM
 #include <Input/Input.h>
+
 
 namespace BlackboardRuntime {
 	class WindowsInput : public Input {
@@ -16,3 +19,4 @@ namespace BlackboardRuntime {
 		std::pair<float, float> GetMousePositionImpl() override;
 	};
 }
+#endif

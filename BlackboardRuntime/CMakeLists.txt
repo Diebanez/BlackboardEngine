@@ -12,6 +12,12 @@ file(GLOB BlackboardRuntime_SRC
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
+if(WIN32)
+    add_definitions(-DBB_WINDOWS_PLATFORM)
+else()
+    message(FATAL_ERROR "Platform not supported")
+endif()
+
 find_package(OpenGL REQUIRED)
 target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog ../Vendor/glad/include ../Vendor/glfw/include ../Vendor/glm)
 target_link_libraries(BlackboardRuntime spdlog glad glfw OpenGL::GL)

@@ -1,10 +1,10 @@
 #pragma once
 
+#ifdef BB_WINDOWS_PLATFORM
 #include <Rendering/Window.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <Rendering/GraphicsContext.h>
-
 namespace BlackboardRuntime {
 	class WindowsWindow : public Window {
 	public:
@@ -44,3 +44,4 @@ namespace BlackboardRuntime {
 		WindowData m_Data;
 	};
 }
+#endif

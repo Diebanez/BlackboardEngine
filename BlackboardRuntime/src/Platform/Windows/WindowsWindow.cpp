@@ -1,3 +1,5 @@
+#ifdef BB_WINDOWS_PLATFORM
+
 #include "WindowsWindow.h"
 
 #include <Events/ApplicationEvent.h>
@@ -9,6 +11,7 @@
 #include <glad/glad.h>
 #include <Core/Log.h>
 
+
 namespace BlackboardRuntime {
 	static bool sGLFWInitialized = false;
 
@@ -17,7 +20,6 @@ namespace BlackboardRuntime {
 	}
 
 	Window* Window::Create(const WindowProperties& props) { return new WindowsWindow(props); }
-
 	WindowsWindow::WindowsWindow(const WindowProperties& props) { Init(props); }
 
 	WindowsWindow::~WindowsWindow() { Shutdown(); }
@@ -151,3 +153,4 @@ namespace BlackboardRuntime {
 	    glfwSetWindowTitle(m_Window, combinedTitle.str().c_str());
     }
 }
+#endif
