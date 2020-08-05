@@ -8,7 +8,6 @@
 
 #include <Platform/OpenGL/OpenGLContext.h>
 
-#include <glad/glad.h>
 #include <Core/Log.h>
 
 
