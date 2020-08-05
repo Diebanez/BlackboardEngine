@@ -3,6 +3,7 @@
 //
 
 #include "LayerStack.h"
+#include <algorithm>
 
 namespace BlackboardRuntime {
     LayerStack::LayerStack() {
