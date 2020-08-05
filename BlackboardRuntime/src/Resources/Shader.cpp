@@ -17,9 +17,8 @@ namespace BlackboardRuntime{
             case RendererAPI::API::OpenGL: {
                 return new OpenGLShader(src);
             }
-
-            BB_CORE_ASSERT(false, "Unknown Renderer API");
-            return nullptr;
         }
+        BB_CORE_ASSERT(false, "Unknown Renderer API");
+        return nullptr;
     }
 }

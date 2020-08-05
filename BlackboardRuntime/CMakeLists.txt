@@ -13,7 +13,7 @@ file(GLOB BlackboardRuntime_SRC
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++17")
+set_property(TARGET BlackboardRuntime PROPERTY CXX_STANDARD 17)
 
 
 if(WIN32)
