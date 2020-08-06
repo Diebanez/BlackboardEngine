@@ -2,11 +2,12 @@
 // Created by diego on 24/07/2020.
 //
 
-#include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "BlackboardRuntime.h"
 
-class TestLayer : public BlackboardRuntime::Layer{
+using namespace BlackboardRuntime;
+
+class TestLayer : public Layer{
 public:
     TestLayer() : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f),
     m_CameraPosition(0.0f),
@@ -18,20 +19,20 @@ public:
                 0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
         };
 
-        m_TrisVertexArray.reset(BlackboardRuntime::VertexArray::Create());
+        m_TrisVertexArray.reset(VertexArray::Create());
 
-        std::shared_ptr<BlackboardRuntime::VertexBuffer> trisVertexBuffer;
-        trisVertexBuffer.reset(BlackboardRuntime::VertexBuffer::Create(trisVertices, sizeof(trisVertices)));
-        BlackboardRuntime::BufferLayout trisLayout = {
-                {BlackboardRuntime::ShaderDataType::Float3, "a_Position"},
-                {BlackboardRuntime::ShaderDataType::Float4, "a_Color" }
+        Ref<VertexBuffer> trisVertexBuffer;
+        trisVertexBuffer.reset(VertexBuffer::Create(trisVertices, sizeof(trisVertices)));
+        BufferLayout trisLayout = {
+                {ShaderDataType::Float3, "a_Position"},
+                {ShaderDataType::Float4, "a_Color" }
         };
         trisVertexBuffer->SetLayout(trisLayout);
         m_TrisVertexArray->AddVertexBuffer(trisVertexBuffer);
 
         uint32_t trisIndices[3] = {0, 1, 2 };
-        std::shared_ptr<BlackboardRuntime::IndexBuffer> trisIndexBuffer;
-        trisIndexBuffer.reset(BlackboardRuntime::IndexBuffer::Create(trisIndices, sizeof(trisIndices) / sizeof(uint32_t)));
+        Ref<IndexBuffer> trisIndexBuffer;
+        trisIndexBuffer.reset(IndexBuffer::Create(trisIndices, sizeof(trisIndices) / sizeof(uint32_t)));
         m_TrisVertexArray->SetIndexBuffer(trisIndexBuffer);
 
         std::string trisVertexSrc = R"(
@@ -54,7 +55,7 @@ public:
 			}
 		)";
 
-        BlackboardRuntime::ShaderSource trisVertexShader = BlackboardRuntime::ShaderSource(BlackboardRuntime::ShaderType::Vertex, trisVertexSrc);
+        ShaderSource trisVertexShader = ShaderSource(ShaderType::Vertex, trisVertexSrc);
 
         std::string trisFragmentSrc = R"(
 			#version 460 core
@@ -70,11 +71,11 @@ public:
 			}
 		)";
 
-        BlackboardRuntime::ShaderSource trisFragmentShader = BlackboardRuntime::ShaderSource(BlackboardRuntime::ShaderType::Fragment, trisFragmentSrc);
+        ShaderSource trisFragmentShader = ShaderSource(ShaderType::Fragment, trisFragmentSrc);
 
-        std::vector<BlackboardRuntime::ShaderSource> trisShaderSources = {trisVertexShader, trisFragmentShader};
+        std::vector<ShaderSource> trisShaderSources = {trisVertexShader, trisFragmentShader};
 
-        m_TrisShader.reset(BlackboardRuntime::Shader::Create(trisShaderSources));
+        m_TrisShader.reset(Shader::Create(trisShaderSources));
 
         float quadVertices[3 * 4] = {
                 -0.5f, -0.5f, 0.0f,
@@ -83,19 +84,19 @@ public:
                 -0.5f,  0.5f, 0.0f
         };
 
-        m_QuadVertexArray.reset(BlackboardRuntime::VertexArray::Create());
+        m_QuadVertexArray.reset(VertexArray::Create());
 
-        std::shared_ptr<BlackboardRuntime::VertexBuffer> quadVertexBuffer;
-        quadVertexBuffer.reset(BlackboardRuntime::VertexBuffer::Create(quadVertices, sizeof(quadVertices)));
-        BlackboardRuntime::BufferLayout quadLayout = {
-                {BlackboardRuntime::ShaderDataType::Float3, "a_Position"},
+        Ref<VertexBuffer> quadVertexBuffer;
+        quadVertexBuffer.reset(VertexBuffer::Create(quadVertices, sizeof(quadVertices)));
+        BufferLayout quadLayout = {
+                {ShaderDataType::Float3, "a_Position"},
         };
         quadVertexBuffer->SetLayout(quadLayout);
         m_QuadVertexArray->AddVertexBuffer(quadVertexBuffer);
 
         uint32_t quadIndices[6] = {0, 1, 2, 2, 3, 0 };
-        std::shared_ptr<BlackboardRuntime::IndexBuffer> indexBuffer;
-        indexBuffer.reset(BlackboardRuntime::IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t)));
+        Ref<IndexBuffer> indexBuffer;
+        indexBuffer.reset(IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t)));
         m_QuadVertexArray->SetIndexBuffer(indexBuffer);
 
         std::string quadVertexSrc = R"(
@@ -115,7 +116,7 @@ public:
 			}
 		)";
 
-        BlackboardRuntime::ShaderSource quadVertexShader = BlackboardRuntime::ShaderSource(BlackboardRuntime::ShaderType::Vertex, quadVertexSrc);
+        ShaderSource quadVertexShader = ShaderSource(ShaderType::Vertex, quadVertexSrc);
 
         std::string quadFragmentSrc = R"(
 			#version 460 core
@@ -132,46 +133,46 @@ public:
 			}
 		)";
 
-        BlackboardRuntime::ShaderSource quadFragmentShader = BlackboardRuntime::ShaderSource(BlackboardRuntime::ShaderType::Fragment, quadFragmentSrc);
+        ShaderSource quadFragmentShader = ShaderSource(ShaderType::Fragment, quadFragmentSrc);
 
-        std::vector<BlackboardRuntime::ShaderSource> quadShaderSources = {quadVertexShader, quadFragmentShader};
+        std::vector<ShaderSource> quadShaderSources = {quadVertexShader, quadFragmentShader};
 
-        m_QuadShader.reset(BlackboardRuntime::Shader::Create(quadShaderSources));
+        m_QuadShader.reset(Shader::Create(quadShaderSources));
     }
 
 
-    void OnUpdate(float time, BlackboardRuntime::TimeStep deltaTime) override {
+    void OnUpdate(float time, TimeStep deltaTime) override {
         m_QuadPosition.y = glm::sin(time);
         m_TrisRotation += deltaTime * 90.0f;
 
-        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_LEFT)) {
+        if (Input::IsKeyPressed(BB_KEY_LEFT)) {
             m_CameraPosition.x -= m_CameraSpeed * deltaTime;
         }
         
-        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_RIGHT)) {
+        if (Input::IsKeyPressed(BB_KEY_RIGHT)) {
             m_CameraPosition.x += m_CameraSpeed * deltaTime;
         }
 
-        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_UP)) {
+        if (Input::IsKeyPressed(BB_KEY_UP)) {
             m_CameraPosition.y += m_CameraSpeed * deltaTime;
         }
 
-        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_DOWN)) {
+        if (Input::IsKeyPressed(BB_KEY_DOWN)) {
             m_CameraPosition.y -= m_CameraSpeed * deltaTime;
         }
 
-        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_E)) {
+        if (Input::IsKeyPressed(BB_KEY_E)) {
             m_CameraRotation += m_CameraRotationSpeed * deltaTime;
         }
 
-        if (BlackboardRuntime::Input::IsKeyPressed(BB_KEY_Q)) {
+        if (Input::IsKeyPressed(BB_KEY_Q)) {
             m_CameraRotation -= m_CameraRotationSpeed * deltaTime;
         }
 
-        BlackboardRuntime::RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1});
-        BlackboardRuntime::RenderCommand::Clear();
+        RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1});
+        RenderCommand::Clear();
 
-        BlackboardRuntime::Renderer::BeginScene(m_Camera);
+        Renderer::BeginScene(m_Camera);
 
         m_Camera.SetPosition(m_CameraPosition);
         m_Camera.SetRotation(m_CameraRotation);
@@ -191,24 +192,24 @@ public:
                     m_QuadShader->SetUniform("u_Color", secondColor);
                 }
 
-                BlackboardRuntime::Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::translate(glm::mat4(1.0f), m_QuadPosition) * transform);
+                Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::translate(glm::mat4(1.0f), m_QuadPosition) * transform);
 
                 counter++;
             }
             counter++;
         }
 
-        BlackboardRuntime::Renderer::Submit(m_TrisShader, m_TrisVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)));
+        Renderer::Submit(m_TrisShader, m_TrisVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)));
 
-        BlackboardRuntime::Renderer::EndScene();
+        Renderer::EndScene();
     }
 
 private:
-    std::shared_ptr<BlackboardRuntime::Shader> m_TrisShader;
-    std::shared_ptr<BlackboardRuntime::VertexArray> m_TrisVertexArray;
-    std::shared_ptr<BlackboardRuntime::Shader> m_QuadShader;
-    std::shared_ptr<BlackboardRuntime::VertexArray> m_QuadVertexArray;
-    BlackboardRuntime::OrthographicCamera m_Camera;
+    Ref<Shader> m_TrisShader;
+    Ref<VertexArray> m_TrisVertexArray;
+    Ref<Shader> m_QuadShader;
+    Ref<VertexArray> m_QuadVertexArray;
+    OrthographicCamera m_Camera;
 
     glm::vec3 m_CameraPosition;
 
@@ -221,7 +222,7 @@ private:
 
 };
 
-class TestApplication : public BlackboardRuntime::Application {
+class TestApplication : public Application {
 public:
     TestApplication() {
         this->PushLayer(new TestLayer);
@@ -234,6 +235,6 @@ public:
 
 };
 
-BlackboardRuntime::Application *BlackboardRuntime::CreateApplication() {
+Application* BlackboardRuntime::CreateApplication() {
     return new TestApplication();
 }

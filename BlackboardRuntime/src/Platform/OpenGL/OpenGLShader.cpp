@@ -1,7 +1,6 @@
 #include "OpenGLShader.h"
 
 #include <glad/glad.h>
-#include <Resources/Shader.h>
 #include <Core/Log.h>
 #include <glm/gtc/type_ptr.hpp>
 

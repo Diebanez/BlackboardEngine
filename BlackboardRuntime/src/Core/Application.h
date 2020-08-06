@@ -29,7 +29,7 @@ namespace BlackboardRuntime
 
         static Application* m_Instance;
 
-        std::unique_ptr<Window> m_Window;
+        Scope<Window> m_Window;
         bool m_Running = true;
         LayerStack m_LayerStack;
         float m_LastFrameTime = 0.0f;

@@ -6,6 +6,7 @@
 #define BLACKBOARDENGINE_OPENGLRENDERERAPI_H
 
 #include <Rendering/RendererAPI.h>
+#include <Core/Core.h>
 
 namespace BlackboardRuntime{
 class OpenGLRendererAPI : public RendererAPI{
@@ -14,7 +15,7 @@ public:
 
     void Clear() override;
 
-    void DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray) override;
+    void DrawIndexed(const Ref<VertexArray> &vertexArray) override;
 };
 }
 

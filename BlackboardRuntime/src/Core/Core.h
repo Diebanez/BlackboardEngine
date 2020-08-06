@@ -2,10 +2,10 @@
 // Created by diego on 24/07/2020.
 //
 
-#pragma once
-
 #ifndef BLACKBOARDENGINE_CORE_H
 #define BLACKBOARDENGINE_CORE_H
+
+#include <memory>
 
 #ifdef BB_ENABLE_ASSERTS
     #define BB_CORE_ASSERT(x, ...) { if(!(x)) { BB_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
@@ -16,6 +16,13 @@
 #endif
 
 #define BB_BIT(x) (1 << x)
-#define BB_BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)
+
+namespace BlackboardRuntime{
+    template<typename T>
+    using Scope = std::unique_ptr<T>;
+
+    template<typename  T>
+    using Ref = std::shared_ptr<T>;
+}
 
 #endif //BLACKBOARDENGINE_CORE_H

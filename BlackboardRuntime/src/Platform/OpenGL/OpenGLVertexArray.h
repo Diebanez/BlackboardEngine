@@ -2,6 +2,7 @@
 #define BLACKBOARDENGINE_OPENGLVERTEXARRAY_H
 
 #include <Rendering/Buffers/VertexArray.h>
+#include <Core/Core.h>
 #include <vector>
 #include <glad/glad.h>
 #include <Resources/Shader.h>
@@ -15,17 +16,17 @@ namespace BlackboardRuntime {
         virtual void Bind() const override;
         virtual void Unbind() const override;
 
-        virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) override;
-        virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) override;
+        virtual void AddVertexBuffer(const Ref<VertexBuffer> &vertexBuffer) override;
+        virtual void SetIndexBuffer(const Ref<IndexBuffer> &indexBuffer) override;
 
-        const std::vector<std::shared_ptr<VertexBuffer>> &GetVertexBuffers() const override {return  m_VertexBuffer;}
-        const std::shared_ptr<IndexBuffer> &GetIndexBuffer() const override{return  m_IndexBuffers;}
+        const std::vector<Ref<VertexBuffer>> &GetVertexBuffers() const override {return  m_VertexBuffer;}
+        const Ref<IndexBuffer> &GetIndexBuffer() const override{return  m_IndexBuffers;}
 
     private:
         uint32_t m_Handle;
 
-        std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffer;
-        std::shared_ptr<IndexBuffer> m_IndexBuffers;
+        std::vector<Ref<VertexBuffer>> m_VertexBuffer;
+        Ref<IndexBuffer> m_IndexBuffers;
     };
 }
 
