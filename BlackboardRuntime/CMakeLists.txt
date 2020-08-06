@@ -13,8 +13,9 @@ file(GLOB BlackboardRuntime_SRC
 
 add_library(BlackboardRuntime ${BlackboardRuntime_SRC})
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-
+if(UNIX AND NOT APPLE)
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+endif()
 
 if(WIN32)
 	add_definitions(-DBB_WINDOWS_PLATFORM)
@@ -25,6 +26,16 @@ else()
 endif()
 
 find_package(OpenGL REQUIRED)
+
+
 target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog ../Vendor/glad/include ../Vendor/glfw/include ../Vendor/glm)
 
-target_link_libraries(BlackboardRuntime GL GLU spdlog glad glfw)
+if(WIN32)
+	target_link_libraries(BlackboardRuntime OpenGL::GL spdlog glad glfw)
+elseif(UNIX AND NOT APPLE)
+	target_link_libraries(BlackboardRuntime GL GLU spdlog glad glfw)
+else()
+	message(FATAL_ERROR "Platform not supported")
+endif()
+
+
