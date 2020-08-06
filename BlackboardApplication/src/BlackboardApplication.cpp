@@ -77,10 +77,10 @@ public:
         m_TrisShader.reset(BlackboardRuntime::Shader::Create(trisShaderSources));
 
         float quadVertices[3 * 4] = {
-                -0.75f, -0.75f, 0.0f,
-                0.75f, -0.75f, 0.0f,
-                0.75f,  0.75f, 0.0f,
-                -0.75f,  0.75f, 0.0f
+                -0.5f, -0.5f, 0.0f,
+                0.5f, -0.5f, 0.0f,
+                0.5f,  0.5f, 0.0f,
+                -0.5f,  0.5f, 0.0f
         };
 
         m_QuadVertexArray.reset(BlackboardRuntime::VertexArray::Create());
@@ -122,11 +122,13 @@ public:
 
 			layout(location = 0) out vec4 color;
 
+            uniform vec4 u_Color;
+
 			in vec3 v_Position;
 
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = u_Color;
 			}
 		)";
 
@@ -174,7 +176,28 @@ public:
         m_Camera.SetPosition(m_CameraPosition);
         m_Camera.SetRotation(m_CameraRotation);
 
-        BlackboardRuntime::Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::translate(glm::mat4(1.0f), m_QuadPosition));
+        int counter = 0;
+        glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+        glm::vec4 firstColor(0.3f, 0.2f, 0.8f, 1.0f);
+        glm::vec4 secondColor(0.8f, 0.3f, 0.2f, 1.0f);
+
+        for(int y = 0; y < 20; y++){
+            for(int x = 0; x < 20; x++){
+                glm::vec3 pos(x *0.10f, y*0.10f, 0.0f);
+                glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scaleMatrix;
+                if(counter % 2 != 0) {
+                    m_QuadShader->SetUniform("u_Color", firstColor);
+                }else{
+                    m_QuadShader->SetUniform("u_Color", secondColor);
+                }
+
+                BlackboardRuntime::Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::translate(glm::mat4(1.0f), m_QuadPosition) * transform);
+
+                counter++;
+            }
+            counter++;
+        }
+
         BlackboardRuntime::Renderer::Submit(m_TrisShader, m_TrisVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)));
 
         BlackboardRuntime::Renderer::EndScene();
