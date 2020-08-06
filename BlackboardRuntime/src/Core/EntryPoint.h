@@ -10,6 +10,10 @@ extern BlackboardRuntime::Application* BlackboardRuntime::CreateApplication();
 int main(int argx, char** argv){
     BlackboardRuntime::Log::Init();
 
+#ifdef BB_ENABLE_ASSERTS
+    BB_CORE_WARN("Assertion enabled");
+#endif
+
     auto app = BlackboardRuntime::CreateApplication();
     app->Run();
     delete app;

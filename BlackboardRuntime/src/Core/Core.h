@@ -6,6 +6,7 @@
 #define BLACKBOARDENGINE_CORE_H
 
 #include <memory>
+#include "Log.h"
 
 #ifdef BB_ENABLE_ASSERTS
     #define BB_CORE_ASSERT(x, ...) { if(!(x)) { BB_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}

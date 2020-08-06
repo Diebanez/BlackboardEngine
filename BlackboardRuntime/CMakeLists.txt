@@ -27,6 +27,9 @@ endif()
 
 find_package(OpenGL REQUIRED)
 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+	add_definitions(-DBB_ENABLE_ASSERTS)
+endif()
 
 target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog ../Vendor/glad/include ../Vendor/glfw/include ../Vendor/glm)
 
