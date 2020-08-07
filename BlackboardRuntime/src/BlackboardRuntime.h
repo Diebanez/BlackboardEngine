@@ -22,4 +22,5 @@
 #include "Rendering/Buffers/VertexArray.h"
 #include "Rendering/Camera/OrthographicCamera.h"
 #include "Resources/Shader.h"
+#include "Resources/Texture.h"
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"

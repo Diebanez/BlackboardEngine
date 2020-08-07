@@ -31,7 +31,7 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
 	add_definitions(-DBB_ENABLE_ASSERTS)
 endif()
 
-target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog ../Vendor/glad/include ../Vendor/glfw/include ../Vendor/glm)
+target_include_directories(BlackboardRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ../Vendor/spdlog/include/spdlog ../Vendor/glad/include ../Vendor/glfw/include ../Vendor/glm ../Vendor/stb_image)
 
 if(WIN32)
 	target_link_libraries(BlackboardRuntime OpenGL::GL spdlog glad glfw)

@@ -1,0 +1,38 @@
+#pragma once
+#include "OpenGLTexture.h"
+#include <glad/glad.h>
+
+#ifndef BB_STBI_IMAGE
+#define BB_STB_IMAGE
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+#endif
+
+namespace BlackboardRuntime {
+    OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_Path(path){
+        int width, height, channels;
+        stbi_set_flip_vertically_on_load(1);
+        stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+        BB_CORE_ASSERT(data, "Failed to load image!");
+        m_Width = width;
+        m_Height = height;
+
+        glCreateTextures(GL_TEXTURE_2D, 1, &m_Handle);
+        glTextureStorage2D(m_Handle, 1, GL_RGB8, m_Width, m_Height);
+
+        glTextureParameteri(m_Handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(m_Handle, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glTextureSubImage2D(m_Handle, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+        stbi_image_free(data);
+    }
+
+    OpenGLTexture2D::~OpenGLTexture2D() {
+        glDeleteTextures(1, &m_Handle);
+    }
+
+    void OpenGLTexture2D::Bind(uint32_t slot) const {
+        glBindTextureUnit(slot, m_Handle);
+    }
+}

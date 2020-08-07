@@ -74,7 +74,7 @@ namespace BlackboardRuntime {
         virtual void SetUniform(const std::string& name, const glm::mat3 &matrix) = 0;
         virtual void SetUniform(const std::string& name, const glm::mat4 &matrix) = 0;
 
-        static Shader* Create(std::vector<ShaderSource> src);
+        static Ref<Shader> Create(std::vector<ShaderSource> src);
     };
 }
 

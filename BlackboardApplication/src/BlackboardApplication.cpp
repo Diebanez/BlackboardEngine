@@ -4,6 +4,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include "BlackboardRuntime.h"
+#include <direct.h>
 
 using namespace BlackboardRuntime;
 
@@ -75,13 +76,13 @@ public:
 
         std::vector<ShaderSource> trisShaderSources = {trisVertexShader, trisFragmentShader};
 
-        m_TrisShader.reset(Shader::Create(trisShaderSources));
+        m_TrisShader =Shader::Create(trisShaderSources);
 
-        float quadVertices[3 * 4] = {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                -0.5f,  0.5f, 0.0f
+        float quadVertices[5 * 4] = {
+                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+                0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+                -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
         };
 
         m_QuadVertexArray.reset(VertexArray::Create());
@@ -90,6 +91,7 @@ public:
         quadVertexBuffer.reset(VertexBuffer::Create(quadVertices, sizeof(quadVertices)));
         BufferLayout quadLayout = {
                 {ShaderDataType::Float3, "a_Position"},
+                {ShaderDataType::Float2, "a_TexCoords"}
         };
         quadVertexBuffer->SetLayout(quadLayout);
         m_QuadVertexArray->AddVertexBuffer(quadVertexBuffer);
@@ -103,15 +105,17 @@ public:
 			#version 460 core
 
 			layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec2 a_TexCoords;
 
             uniform mat4 u_ViewProjection;
             uniform mat4 u_Transform;
 
-			out vec3 v_Position;
+            out vec2 v_TexCoords;
 
 			void main()
 			{
-				v_Position = a_Position;
+				v_TexCoords = a_TexCoords;
+
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
@@ -123,13 +127,14 @@ public:
 
 			layout(location = 0) out vec4 color;
 
-            uniform vec4 u_Color;
+            in vec2 v_TexCoords;
 
-			in vec3 v_Position;
+            uniform vec4 u_Color;
+            uniform sampler2D u_Texture;
 
 			void main()
 			{
-				color = u_Color;
+				color = u_Color * texture(u_Texture, v_TexCoords);
 			}
 		)";
 
@@ -137,9 +142,13 @@ public:
 
         std::vector<ShaderSource> quadShaderSources = {quadVertexShader, quadFragmentShader};
 
-        m_QuadShader.reset(Shader::Create(quadShaderSources));
-    }
+        m_QuadShader = Shader::Create(quadShaderSources);
 
+        m_Texture = Texture2D::Create("assets/textures/Monobike_U1_Base_Color.png");
+
+        m_QuadShader->Bind();
+        m_QuadShader->SetUniform("u_Texture", 0);
+    }
 
     void OnUpdate(float time, TimeStep deltaTime) override {
         m_QuadPosition.y = glm::sin(time);
@@ -182,6 +191,7 @@ public:
         glm::vec4 firstColor(0.3f, 0.2f, 0.8f, 1.0f);
         glm::vec4 secondColor(0.8f, 0.3f, 0.2f, 1.0f);
 
+        m_Texture->Bind();
         for(int y = 0; y < 20; y++){
             for(int x = 0; x < 20; x++){
                 glm::vec3 pos(x *0.10f, y*0.10f, 0.0f);
@@ -199,7 +209,9 @@ public:
             counter++;
         }
 
-        Renderer::Submit(m_TrisShader, m_TrisVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)));
+        m_QuadShader->SetUniform("u_Color", glm::vec4(1.0f));
+
+        Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
         Renderer::EndScene();
     }
@@ -209,6 +221,7 @@ private:
     Ref<VertexArray> m_TrisVertexArray;
     Ref<Shader> m_QuadShader;
     Ref<VertexArray> m_QuadVertexArray;
+    Ref<Texture2D> m_Texture;
     OrthographicCamera m_Camera;
 
     glm::vec3 m_CameraPosition;

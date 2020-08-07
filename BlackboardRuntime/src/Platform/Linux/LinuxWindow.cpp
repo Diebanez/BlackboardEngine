@@ -19,7 +19,7 @@ namespace BlackboardRuntime {
         BB_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
     }
 
-    Window* Window::Create(const WindowProperties& props) { return new LinuxWindow(props); }
+    Ref<Window> Window::Create(const WindowProperties& props) { return CreateRef<LinuxWindow>(props); }
     LinuxWindow::LinuxWindow(const WindowProperties& props) { Init(props); }
 
     LinuxWindow::~LinuxWindow() { Shutdown(); }
