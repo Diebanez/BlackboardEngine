@@ -5,6 +5,7 @@ namespace BlackboardRuntime{
 	class OpenGLShader : public Shader {
 	public:
 		OpenGLShader(std::vector<ShaderSource> src);
+        OpenGLShader(const std::string& path);
 		virtual ~OpenGLShader();
 
 		void Bind() override;
@@ -19,6 +20,12 @@ namespace BlackboardRuntime{
         void SetUniform(const std::string& name, const glm::mat4 &matrix) override;
 
     private:
+	    std::string ReadFile(const std::string& path);
+	    std::vector<ShaderSource> PreProcess(const std::string& source);
+	    void Compile(const std::vector<ShaderSource>& src);
+
+	    ShaderType ShaderDataTypeFromString(const std::string& value);
+
 		uint32_t m_Handle;
 };
 }

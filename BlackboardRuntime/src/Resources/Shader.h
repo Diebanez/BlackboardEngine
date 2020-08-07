@@ -48,15 +48,16 @@ namespace BlackboardRuntime {
     }
 
     enum class ShaderType {
-        Vertex = 0,
-        Fragment = 1
+        Unknown = 0,
+        Vertex = 1,
+        Fragment = 2
     };
 
     struct ShaderSource{
         ShaderType Type;
-        const std::string& Code;
+        const std::string Code;
 
-        ShaderSource(ShaderType type, const std::string& src) : Type(type), Code(src){}
+        ShaderSource(ShaderType type, std::string src) : Type(type), Code(src){}
     };
 
     class Shader {
@@ -74,6 +75,7 @@ namespace BlackboardRuntime {
         virtual void SetUniform(const std::string& name, const glm::mat3 &matrix) = 0;
         virtual void SetUniform(const std::string& name, const glm::mat4 &matrix) = 0;
 
+        static Ref<Shader> Create(const std::string& path);
         static Ref<Shader> Create(std::vector<ShaderSource> src);
     };
 }

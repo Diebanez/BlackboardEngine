@@ -6,11 +6,17 @@
 #define BLACKBOARDENGINE_CORE_H
 
 #include <memory>
+#include <signal.h>
 #include "Log.h"
 
 #ifdef BB_ENABLE_ASSERTS
-    #define BB_CORE_ASSERT(x, ...) { if(!(x)) { BB_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
-    #define BB_ASSERT(x, ...) {if(!(x)) { BB_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); }}
+    #if WIN32
+        #define BB_CORE_ASSERT(x, ...) { if(!(x)) { BB_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
+        #define BB_ASSERT(x, ...) {if(!(x)) { BB_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); }}
+    #elif __linux__
+        #define BB_CORE_ASSERT(x, ...) { if(!(x)) { BB_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); raise(SIGTRAP);}}
+        #define BB_ASSERT(x, ...) {if(!(x)) { BB_ERROR("Assertion Failed: {0}", __VA_ARGS__); raise(SIGTRAP); }}
+    #endif
 #else
     #define BB_CORE_ASSERT(x, ...)
     #define BB_ASSERT(x, ...)
