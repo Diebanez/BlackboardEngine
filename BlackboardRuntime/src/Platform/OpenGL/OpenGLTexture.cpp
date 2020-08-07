@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 
 #ifndef BB_STBI_IMAGE
-#define BB_STB_IMAGE
+#define BB_STBI_IMAGE
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #endif
@@ -17,13 +17,27 @@ namespace BlackboardRuntime {
         m_Width = width;
         m_Height = height;
 
+        GLenum internalFormat = 0;
+        GLenum dataFormat = 0;
+
+        if(channels == 3){
+            internalFormat = GL_RGB8;
+            dataFormat = GL_RGB;
+        }
+        else if(channels == 4) {
+            internalFormat = GL_RGBA8;
+            dataFormat = GL_RGBA;
+        }
+
+        BB_CORE_ASSERT(internalFormat & dataFormat, "Texture format not supported!");
+
         glCreateTextures(GL_TEXTURE_2D, 1, &m_Handle);
-        glTextureStorage2D(m_Handle, 1, GL_RGB8, m_Width, m_Height);
+        glTextureStorage2D(m_Handle, 1, internalFormat, m_Width, m_Height);
 
         glTextureParameteri(m_Handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_Handle, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTextureParameteri(m_Handle, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        glTextureSubImage2D(m_Handle, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTextureSubImage2D(m_Handle, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
         stbi_image_free(data);
     }

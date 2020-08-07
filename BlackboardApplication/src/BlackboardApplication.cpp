@@ -145,6 +145,7 @@ public:
         m_QuadShader = Shader::Create(quadShaderSources);
 
         m_Texture = Texture2D::Create("assets/textures/Monobike_U1_Base_Color.png");
+        m_Texture2 = Texture2D::Create("assets/textures/BB_Logo_2.png");
 
         m_QuadShader->Bind();
         m_QuadShader->SetUniform("u_Texture", 0);
@@ -213,6 +214,9 @@ public:
 
         Renderer::Submit(m_QuadShader, m_QuadVertexArray, glm::rotate(glm::mat4(1.0f), glm::radians(m_TrisRotation), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
+        m_Texture2->Bind();
+        Renderer::Submit(m_QuadShader, m_QuadVertexArray,  glm::mat4(1.0f));
+
         Renderer::EndScene();
     }
 
@@ -222,6 +226,7 @@ private:
     Ref<Shader> m_QuadShader;
     Ref<VertexArray> m_QuadVertexArray;
     Ref<Texture2D> m_Texture;
+    Ref<Texture2D> m_Texture2;
     OrthographicCamera m_Camera;
 
     glm::vec3 m_CameraPosition;

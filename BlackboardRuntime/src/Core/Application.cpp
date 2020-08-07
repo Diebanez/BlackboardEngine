@@ -1,6 +1,7 @@
 #include <Events/EventDispatcher.h>
 #include <Events/ApplicationEvent.h>
 #include <GLFW/glfw3.h>
+#include <Rendering/Renderer.h>
 #include "Application.h"
 #include "Log.h"
 
@@ -14,6 +15,8 @@ namespace BlackboardRuntime
         m_Instance= this;
         m_Window = Window::Create();
         m_Window->SetEventCallback(APPLICATION_BIND_EVENT(OnEvent));
+
+        Renderer::Init();
     }
 
     Application::~Application() { }
